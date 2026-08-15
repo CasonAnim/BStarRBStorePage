@@ -1,0 +1,25 @@
+{
+  "name": "brawlstar",
+  "version": "1.0.0",
+  "description": "A Demo Project For Database Class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix app\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CasonAnim/BStarRBStorePage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/CasonAnim/BStarRBStorePage/issues"
+  },
+  "homepage": "https://github.com/CasonAnim/BStarRBStorePage#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}
