@@ -4,6 +4,7 @@
   import products from "./routes/products.mjs";
   import topup from "./routes/topup.mjs";
   import userProfiles from "./routes/userProfile.mjs";
+  import purchase from "./routes/purchaseLog.mjs";
 
 
   const PORT = process.env.PORT || 5050;
@@ -14,6 +15,7 @@
   app.use("/products", products)
   app.use("/profile", userProfiles)
   app.use("/topup", topup)
+  app.use("/purchase", purchase)
 
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

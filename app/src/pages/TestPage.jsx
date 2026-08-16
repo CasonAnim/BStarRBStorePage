@@ -4,7 +4,7 @@
     function TestPage() {
         const [account, setAccounts] = useState([]);
         // const
-            useEffect(() => {
+            useEffect(() => {   
             async function getAccounts() {
                 const response = await fetch("http://localhost:5050/products");
                 const data = await response.json();
