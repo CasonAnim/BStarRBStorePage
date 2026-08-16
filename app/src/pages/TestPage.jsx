@@ -12,7 +12,7 @@
         }
             getAccounts();
             }, []);
-
+        
         return (
             <>
                 <div className="border-black border-5 rounded-2xl">    
