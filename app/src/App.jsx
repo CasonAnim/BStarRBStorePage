@@ -2,6 +2,7 @@ import TestPage from "./pages/TestPage"
 import TestPageI from "./pages/TestPage_Individual"
 import UserProfiles from "./pages/UserProfile"
 import Auth from "./pages/AuthTest"
+import Reg from "./pages/Reg"
 // import TopUptest from "./pages/TopUptest"
 import { Routes, Route } from "react-router-dom";
 function App() {
@@ -12,6 +13,8 @@ function App() {
       <Route path="/products" element={<TestPage/>}/>
       <Route path="/products/:id" element={<TestPageI/>}/>
       <Route path="/auth" element={<Auth/>}/>
+      <Route path="/reg" element={<Reg/>}/>
+      <Route path="/register" element={<Reg/>}/>
       {/* <Route path="/topup" element={<TopUptest/>}/> */}
     </Routes>
     </>
