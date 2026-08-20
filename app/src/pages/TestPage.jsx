@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import TopBar from "../components/TopBar";
-import CategoryBar from "../components/CategoryBar";
-import ProductCard from "../components/ProductCard";
+import BannerWithCategory from "../components/BannerWithCategory"; // ใช้คอมโพเนนต์รวมตัวใหม่
+import HomeContent from "../components/HomeContent";
+import ExtraContent from "../components/ExtraContent"; 
+import ProductList from "../components/ProductList";
+import PageBackground from "../components/PageBackground";
 
 function TestPage() {
   const [accounts, setAccounts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("หน้าหลัก");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentCategory = searchParams.get("category");
+  const isHomePage = !currentCategory || currentCategory === "หน้าหลัก";
 
   useEffect(() => {
     async function getAccounts() {
@@ -20,41 +27,49 @@ function TestPage() {
     getAccounts();
   }, []);
 
-  const filteredAccounts = accounts.filter((item) => {
-    if (selectedCategory === "หน้าหลัก") {
-      return false;
+  const handleSelectCategory = (category) => {
+    if (category === "หน้าหลัก") {
+      setSearchParams({});
+    } else {
+      setSearchParams({ category });
     }
-    return item.account?.idGroup === selectedCategory;
-  });
+  };
+
+  const filteredAccounts = isHomePage
+    ? []
+    : accounts.filter((item) => item.account?.idGroup === currentCategory);
 
   return (
-    <div className="bg-[#13172B] min-h-screen w-full overflow-x-hidden text-white flex flex-col">
-      <TopBar />
+    <div className="bg-[#13172B] min-h-screen w-full overflow-x-hidden text-white flex flex-col relative">
+      
+      {/* ลูกเล่นพื้นหลังหน้า TestPage */}
+      <PageBackground />
 
-      <CategoryBar onSelectCategory={(category) => setSelectedCategory(category)} />
+      {/* เนื้อหาเว็บไซต์ */}
+      <div className="relative z-10 flex flex-col flex-1">
+        <TopBar />
 
-      <div className="p-3 sm:p-6 max-w-7xl mx-auto w-full flex-1">
-        <div className="mb-4 flex items-center justify-between px-1">
-          <h2 className="text-base sm:text-lg font-bold text-gray-100">
-            หมวดหมู่: <span className="text-[#00D09E]">{selectedCategory}</span>
-          </h2>
-          <span className="text-xs text-gray-400">
-            พบสินค้า {filteredAccounts.length} รายการ
-          </span>
+        {/* แบนเนอร์และแถบหมวดหมู่ขนาดเท่ากันและติดกันในกรอบเดียว */}
+        <BannerWithCategory 
+          selectedCategory={isHomePage ? "หน้าหลัก" : currentCategory} 
+          onSelectCategory={handleSelectCategory} 
+        />
+
+        <div className="p-3 sm:p-6 max-w-7xl mx-auto w-full flex-1">
+          {isHomePage ? (
+            <div className="space-y-12">
+              <HomeContent />
+              <ExtraContent />
+            </div>
+          ) : (
+            <ProductList 
+              currentCategory={currentCategory} 
+              filteredAccounts={filteredAccounts} 
+            />
+          )}
         </div>
-
-        {filteredAccounts.length > 0 ? (
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 mt-2">
-            {filteredAccounts.map((item) => (
-              <ProductCard key={item._id || item.id} data={item} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 bg-[#181D35] rounded-2xl border border-[#2A3150] mt-4">
-            <p className="text-gray-400 text-sm">ยังไม่มีสินค้าในหมวดหมู่นี้</p>
-          </div>
-        )}
       </div>
+
     </div>
   );
 }
