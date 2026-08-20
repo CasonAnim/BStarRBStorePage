@@ -1,40 +1,48 @@
-import { useNavigate } from "react-router-dom";
+
 import { useState ,useEffect } from "react";
-
-function Reg() {
+import { useNavigate } from "react-router-dom";
+function Login() {
     const [username ,setUsername] = useState("");
-    const [displayName ,setDisplayname] = useState("");
     const [password ,setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
-    useEffect (() => {
-        const token = localStorage.getItem("token")
-
-        async function checkareAuth() {
-            if (token) {
-                return navigate("/me")
+    
+        useEffect (() => {
+            const token = localStorage.getItem("token")
+    
+            async function checkareAuth() {
+                if (token) {
+                    return navigate("/me")
+                }
+                
             }
             
+            checkareAuth()
         }
-        
-        checkareAuth()
-    }
-    ,[navigate]
-    )
-
+        ,[navigate]
+        )
     async function handleSumbit(e) {
         e.preventDefault();
         
-        const res = await fetch("http://localhost:5050/auth/register", {
+        const res = await fetch("http://localhost:5050/auth/login", {
             method :"POST",
             headers : {"Content-Type": "application/json"},
-            body : JSON.stringify({username, displayName,password})
+            body : JSON.stringify({username, password})
         })
 
         // console.log (username)
         // console.log (password)
         // console.log (displayname)
         const data = await res.json();
+        console.log("Login response:", data);
+        if (res.ok) {
+            localStorage.setItem("token" , data.token);
+            console.log("Login success")
+            navigate("/me")
+            
+        } else {
+            console.log("Log in Failed.. " , data)
+        }
     } 
 
     return (
@@ -50,13 +58,7 @@ function Reg() {
                         }
                         ></input>
                 </div>
-                <div>
-                    <label htmlFor="displayName">Display Name : </label>
-                    <input type="text" placeholder="Enter DisplayName" name="displayName"
-                        value={displayName}
-                        onChange={(e) => {setDisplayname(e.target.value)}}
-                    ></input>
-                </div>
+                
                 <div>
                     <label htmlFor="password">Password : </label>
                     <input type="text" placeholder="Enter password" name="password"
@@ -73,4 +75,4 @@ function Reg() {
     )   
 }
 
-export default Reg
+export default Login

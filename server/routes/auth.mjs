@@ -56,11 +56,11 @@ router.post("/login" , async (req , res) => {
             {expiresIn : "7d"}
         )
         res.status(200).send({ token, user: { _id: user._id, username: user.username, displayName: user.displayName, role : user.role} });
-
+        console.log("SUCCESS")
     } catch (
        err 
     ) {
-       console.error(error);
+       console.error(err);
         res.status(500).send("Error"); 
     }
 })
