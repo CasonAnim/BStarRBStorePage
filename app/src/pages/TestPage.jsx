@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import TopBar from "../components/TopBar";
-import BannerWithCategory from "../components/BannerWithCategory"; // ใช้คอมโพเนนต์รวมตัวใหม่
+import BannerWithCategory from "../components/BannerWithCategory"; 
 import HomeContent from "../components/HomeContent";
 import ExtraContent from "../components/ExtraContent"; 
 import ProductList from "../components/ProductList";
 import PageBackground from "../components/PageBackground";
+import Footer from "../components/Footer"; // นำเข้าคอมโพเนนต์ Footer
 
 function TestPage() {
   const [accounts, setAccounts] = useState([]);
@@ -45,11 +46,10 @@ function TestPage() {
       {/* ลูกเล่นพื้นหลังหน้า TestPage */}
       <PageBackground />
 
-      {/* เนื้อหาเว็บไซต์ */}
+      {/* เนื้อหาเว็บไซต์ทั้งหมด */}
       <div className="relative z-10 flex flex-col flex-1">
         <TopBar />
 
-        {/* แบนเนอร์และแถบหมวดหมู่ขนาดเท่ากันและติดกันในกรอบเดียว */}
         <BannerWithCategory 
           selectedCategory={isHomePage ? "หน้าหลัก" : currentCategory} 
           onSelectCategory={handleSelectCategory} 
@@ -68,6 +68,9 @@ function TestPage() {
             />
           )}
         </div>
+
+        {/* ส่วน Footer ด้านล่างสุดของเว็บ */}
+        <Footer />
       </div>
 
     </div>
