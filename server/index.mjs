@@ -6,6 +6,7 @@
   import authRoutes from "./routes/auth.mjs";
   import userProfiles from "./routes/userProfile.mjs";
   import purchase from "./routes/purchaseLog.mjs";
+  import admin from "./routes/admin.mjs";
 
 
   const PORT = process.env.PORT || 5050;
@@ -18,6 +19,7 @@
   app.use("/topup", topup)
   app.use("/purchase", purchase)
   app.use("/auth", authRoutes)
+  app.use("/admin", admin)
 
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

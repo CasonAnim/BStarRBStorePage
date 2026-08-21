@@ -15,66 +15,48 @@
         
         return (
             <>
-                <div className="border-black border-5 rounded-2xl">    
-                    <div className="grid grid-cols-2 gap-4 m-5 text-center">
-                        {account.map((users)=> (
-                            <Link key={users.id} to={`/products/${users.id}`}>
-                            <div key={users.id} className="bg-[#606E9C] text-white rounded-2xl hover:bg-[#354064]"> 
-                                <div>
-                                    ID : {users.id}
-                                </div>
-                                <div>
-                                    Price : {users.price} THB
-                                </div>
-                                <div>
-                                    Seller : {users.seller}
-                                </div>
-                                <div>
-                                    Status : {users.status}
-                                </div>
-                                <div>
-                                    Group : {users.account.idGroup}
-                                </div>
-                                <div>
-                                    <ul>
-                                    Skins : 
-                                        <li>Rare : {users.account.skins.rare}</li>
-                                        <li>Epic : {users.account.skins.epic}</li>
-                                        <li>Legendary : {users.account.skins.legendary}</li>
-                                        <li>Mythic : {users.account.skins.mythic}</li>
-                                        <li>Super : {users.account.skins.super}</li>
-                                        <li>Hyper : {users.account.skins.hyper}</li>
-                                    </ul>
-                                </div>
+    <div className="border-black border-5 rounded-2xl">    
+        <div className="grid grid-cols-2 gap-4 m-5 text-center">
+            {account.map((users) => {
+                // คำนวณหาผลรวมของ Skin ทั้งหมด (ป้องกันกรณีค่าเป็น undefined ด้วย fallback || 0)
+                const skins = users.account.skins;
+                const totalSkins = 
+                    (skins?.rare || 0) + 
+                    (skins?.super || 0) + 
+                    (skins?.epic || 0) + 
+                    (skins?.mythic || 0) + 
+                    (skins?.legendary || 0) + 
+                    (skins?.hyper || 0);
 
-                                    <div>
-                                        <ul>
-                                        Brawlers :
-                                            {users.account.brawlers.map((brawler, index) => (
-                                                <li key={index}>{brawler}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                // นับจำนวน Brawlers จากความยาวของ Array
+                const totalBrawlers = users.account.brawlers?.length || 0;
 
-                                <div>
-                                    <ul>
-                                    Currencies : 
-                                        <li>Gem : {users.account.currencies.gems}</li>
-                                        <li>Coin : {users.account.currencies.coins}</li>
-                                        <li>PowerPoint : {users.account.currencies.powerPoints}</li>
-                                        <li>StarPoint : {users.account.currencies.starPoints}</li>
-                                        
-                                    </ul>
-                                </div>
-                                {/* <div>
-                                    Created : N/A
-                                    </div> */}
+                return (
+                    <Link key={users._id} to={`/products/${users._id}`}>
+                        {/* เพิ่ม p-4 (padding) และ gap-2 เพื่อให้การ์ดดูมีพื้นที่จัดเรียงสวยงามขึ้นเล็กน้อย */}
+                        <div className="bg-[#606E9C] text-white rounded-2xl p-4 hover:bg-[#354064] flex flex-col gap-2"> 
+                            <div className="text-lg font-bold">
+                                Price : {users.price} THB
                             </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </>
+                            <div>
+                                Status : <span className="uppercase">{users.status}</span>
+                            </div>
+                            <div>
+                                Group : {users.account.idGroup}
+                            </div>
+                            <div>
+                                Total Brawlers : {totalBrawlers} ตัว
+                            </div>
+                            <div>
+                                Total Skins : {totalSkins} ชิ้น
+                            </div>
+                        </div>
+                    </Link>
+                );
+            })}
+        </div>
+    </div>
+</>
         )
     }
 

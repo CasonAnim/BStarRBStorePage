@@ -35,6 +35,11 @@ function Reg() {
         // console.log (password)
         // console.log (displayname)
         const data = await res.json();
+        if (res.ok) {
+            localStorage.setItem("token", data.token);
+            navigate("/me")
+        }
+
     } 
 
     return (

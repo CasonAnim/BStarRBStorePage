@@ -2,9 +2,8 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../db/conn.mjs";
-import { ObjectId } from "mongodb";
-import requireAuth from "../middleware/requireAuth.mjs"
-
+import dotenv from "dotenv";
+dotenv.config();
 
 const collection = db.collection("hashUserTest"); 
 const router = express.Router();
@@ -31,9 +30,24 @@ router.post("/register", async (req ,res) => {
             balance: 0,
             createdAt: new Date()
         };
-
+        console.log(newUser)
         const result = await collection.insertOne(newUser)
-        res.status(200).send({message : "Done", userId : result.insertedId})
+        const token = jwt.sign(
+            {_id : newUser._id , role : newUser.role},
+            process.env.JWT_SECRET,
+            {expiresIn : "7d"}
+        )
+
+        return res.status(200).json({
+            message: "Done",
+            token,
+            user: {
+                _id: result.insertedId,
+                username: newUser.username,
+                displayName: newUser.displayName,
+                role: newUser.role
+            }
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send("Error");
