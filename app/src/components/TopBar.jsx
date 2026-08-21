@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom"; // นำเข้า useSearchParams
 import myLogo from "../assets/logoAndPicture/logo.jpg";
 
 function TopBar() {
   const [selectedGame, setSelectedGame] = useState("Brawl Stars");
-  const [searchQuery, setSearchQuery] = useState("");
+  
+  // 🌟 ใช้ URLSearchParams แทน Local State ธรรมดา เพื่อให้หน้าอื่นดึงคำค้นหาไปใช้ได้
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
   
   // 🌟 State สำหรับควบคุมการเปิด-ปิด และข้อความของ Modal แจ้งเตือน
   const [modalInfo, setModalInfo] = useState({ isOpen: false, gameName: "" });
@@ -20,12 +24,25 @@ function TopBar() {
   const handleGameChange = (e) => {
     const gameName = e.target.value;
     if (gameName !== "Brawl Stars") {
-      // เปิด Custom Modal สไตล์ Supercell ตรงกลางจอ
       setModalInfo({ isOpen: true, gameName: gameName });
-      setSelectedGame("Brawl Stars"); // รีเซ็ตค่ากลับมาที่ Brawl Stars
+      setSelectedGame("Brawl Stars");
     } else {
       setSelectedGame(gameName);
     }
+  };
+
+  // 🌟 ฟังก์ชันจัดการเวลาพิมพ์ค้นหา
+  const handleSearchChange = (e) => {
+    const text = e.target.value;
+    const newParams = new URLSearchParams(searchParams);
+    
+    if (text) {
+      newParams.set("search", text); // ถ้ามีคำพิมพ์ ให้ใส่ค่าลงใน URL ?search=...
+    } else {
+      newParams.delete("search"); // ถ้าลบข้อความออก ให้เอาพารามิเตอร์ search ออก
+    }
+    
+    setSearchParams(newParams);
   };
 
   return (
@@ -70,7 +87,7 @@ function TopBar() {
               type="text"
               placeholder={`ค้นหาใน ${selectedGame}...`}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange} // 🌟 เชื่อมโยงฟังก์ชันรับตัวอักษรค้นหา
               className="w-full bg-transparent px-3 py-2 text-xs sm:text-sm text-white placeholder-gray-500 outline-none"
             />
 
@@ -92,27 +109,19 @@ function TopBar() {
 
       </header>
 
-      {/* 🌟 Supercell-Style Custom Modal Popup (อยู่ตรงกลางจอเป๊ะๆ) */}
+      {/* 🌟 Supercell-Style Custom Modal Popup */}
       {modalInfo.isOpen && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
           <div className="bg-gradient-to-b from-[#1E2548] to-[#13172B] border-2 border-amber-400/80 rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-[0_0_30px_rgba(245,158,11,0.3)] text-center relative transform transition-all scale-100">
-            
-            {/* ไอคอนแจ้งเตือนสไตล์เกม */}
             <div className="w-16 h-16 bg-amber-500/20 border border-amber-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
               <span className="text-3xl">🛠️</span>
             </div>
-
-            {/* หัวข้อ */}
             <h3 className="text-xl sm:text-2xl font-black text-white tracking-wide mb-2 uppercase drop-shadow-md">
               Coming Soon!
             </h3>
-
-            {/* รายละเอียดข้อความ */}
             <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-6">
               เกม <span className="text-amber-400 font-bold">{modalInfo.gameName}</span> กำลังอยู่ระหว่างพัฒนาระบบ ขออภัยในความไม่สะดวกครับ!
             </p>
-
-            {/* ปุ่มตกลงสไตล์ปุ่มเกมเมอร์ */}
             <button
               onClick={() => setModalInfo({ isOpen: false, gameName: "" })}
               className="w-full py-3 px-6 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-600 hover:to-yellow-500 text-gray-950 font-black rounded-xl shadow-lg transition-all transform active:scale-95 cursor-pointer text-sm sm:text-base tracking-wider uppercase border border-yellow-200"

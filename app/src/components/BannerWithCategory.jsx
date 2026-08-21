@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import bannerImage from "../assets/logoAndPicture/Topbar.jpg";
 
 export default function BannerWithCategory({ selectedCategory, onSelectCategory }) {
-  // รายการหมวดหมู่ทั้งหมด
+  const [startingCount, setStartingCount] = useState(0);
+
+  // ดึงข้อมูลจำนวนไอดีเริ่มต้นที่พร้อมขายจาก Backend
+  useEffect(() => {
+    async function fetchCount() {
+      try {
+        const response = await fetch("http://localhost:5050/products/categories/count");
+        const data = await response.json();
+        if (data && typeof data.count === "number") {
+          setStartingCount(data.count);
+        }
+      } catch (error) {
+        console.error("Error fetching category count:", error);
+      }
+    }
+    fetchCount();
+  }, []);
+
+  // รายการหมวดหมู่ทั้งหมด (เปลี่ยนค่า count ของ "ไอดีเริ่มต้น" ให้ใช้ตัวแปร startingCount)
   const categories = [
     { name: "หน้าหลัก", count: null },
-    { name: "ไอดีเริ่มต้น", count: 6 },
+    { name: "ไอดีเริ่มต้น", count: startingCount },
     { name: "ไอดีทั่วไป", count: 0 },
     { name: "ไอดีแรร์", count: 0 },
     { name: "กล่องสุ่มไอดี", count: 0 },
