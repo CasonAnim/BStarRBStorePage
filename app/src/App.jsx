@@ -5,6 +5,7 @@ import PostSummary from './components/PostSummary'
 function App() {
   return(
     <>
+<<<<<<< HEAD
     <h1>Test</h1>
     <PostSummary/>
 =======
@@ -23,6 +24,8 @@ function App() {
   return(
     <>
     <NavbarTest/>
+=======
+>>>>>>> FrontEndTai
     <Routes>
       <Route path="/products" element={<TestPage/>}/>
       <Route path="/products/:id" element={<TestPageI/>}/>

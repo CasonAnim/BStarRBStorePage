@@ -30,6 +30,24 @@ router.get("/", async (req , res) => {
         res.status(500).send("Error")
     }
 })
+
+
+router.get("/categories/count", async (req, res) => {
+    try {
+        const collection = db.collection("brawlStarsAcc");
+        // นับเฉพาะตัวที่มี status เป็น "available" และอยู่ในกลุ่ม "ไอดีเริ่มต้น"
+        const count = await collection.countDocuments({ 
+            "account.idGroup": "ไอดีเริ่มต้น", 
+            status: "available" 
+        });
+        res.status(200).json({ count });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error");
+    }
+});
+
+
 router.get("/:id", async (req , res) => {
 
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   import "./loadEnvironment.mjs";
   import express from "express";
   import cors from "cors";
@@ -8,10 +9,18 @@
   import purchase from "./routes/purchaseLog.mjs";
   import admin from "./routes/admin.mjs";
 
+=======
+import "./loadEnvironment.mjs";
+import express from "express";
+import cors from "cors";
+import products from "./routes/products.mjs";
+import news from "./routes/news.mjs";
+>>>>>>> FrontEndTai
 
   const PORT = process.env.PORT || 5050;
   const app = express();
 
+<<<<<<< HEAD
   app.use(cors());
   app.use(express.json());
   app.use("/products", products)
@@ -24,3 +33,13 @@
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
+=======
+app.use(cors());
+app.use(express.json());
+app.use("/products", products)
+app.use("/news", news);
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+>>>>>>> FrontEndTai
