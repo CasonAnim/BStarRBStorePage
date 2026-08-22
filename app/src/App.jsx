@@ -1,14 +1,4 @@
-<<<<<<< HEAD
-import PostSummary from './components/PostSummary'
 
-
-function App() {
-  return(
-    <>
-<<<<<<< HEAD
-    <h1>Test</h1>
-    <PostSummary/>
-=======
 import TestPage from "./pages/TestPage"
 import TestPageI from "./pages/TestPage_Individual"
 import UserProfiles from "./pages/UserProfile"
@@ -24,8 +14,6 @@ function App() {
   return(
     <>
     <NavbarTest/>
-=======
->>>>>>> FrontEndTai
     <Routes>
       <Route path="/products" element={<TestPage/>}/>
       <Route path="/products/:id" element={<TestPageI/>}/>
@@ -39,7 +27,7 @@ function App() {
       </Protected>}/>
       <Route path="/topup" element={<TopUptest/>}/>
     </Routes>
->>>>>>> 0f21057158ae37f4bd31f394c43f24915660cf0a
+
     </>
   )
 }

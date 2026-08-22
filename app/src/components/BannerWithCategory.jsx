@@ -8,7 +8,7 @@ export default function BannerWithCategory({ selectedCategory, onSelectCategory 
   useEffect(() => {
     async function fetchCount() {
       try {
-        const response = await fetch("http://localhost:5050/products/categories/count");
+        const response = await fetch("http://localhost:5050/products");
         const data = await response.json();
         if (data && typeof data.count === "number") {
           setStartingCount(data.count);

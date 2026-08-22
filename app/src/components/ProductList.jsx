@@ -29,7 +29,11 @@ export default function ProductList({ currentCategory, filteredAccounts }) {
 
       {/* 2. เรียกใช้งาน Component ที่แยกไว้ตรงนี้ ทำให้โค้ดสั้นลงมาก! */}
       {filteredAccounts.length === 0 ? (
+        <>
         <EmptyProductList currentCategory={currentCategory} />
+        <h1>{console.log(filteredAccounts.length)} AA</h1>
+        </>
+        
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
           {filteredAccounts.map((item) => {
@@ -39,8 +43,8 @@ export default function ProductList({ currentCategory, filteredAccounts }) {
 
             return (
               <div 
-                key={item._id || item.id}
-                onClick={() => navigate(`/products/${item.id || item._id}`)}
+                key={item._id}
+                onClick={() => navigate(`/products/${item._id}`)}
                 className="bg-[#181D35] border border-[#2A3150] rounded-2xl overflow-hidden hover:border-cyan-500/50 transition flex flex-col justify-between shadow-xl cursor-pointer group"
               >
                 {/* ส่วนบน: รูปภาพปกสินค้า */}
