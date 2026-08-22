@@ -47,7 +47,7 @@ function TestPage() {
     : accounts.filter((item) => {
       console.log(item.status)
         // เช็คสถานะว่าสินค้าต้องพร้อมขาย
-        const isAvailable = item.status == "avaliable";
+        const isAvailable = item.status === "avaliable";
         console.log(`isAvaliable .. ${isAvailable}`)
         // เช็คหมวดหมู่ (ถ้าไม่ได้เลือก หรืออยู่หน้าหลักแต่กดค้นหา ให้ผ่านเงื่อนไขหมวดหมู่)
         const matchCategory = (!currentCategory || currentCategory === "หน้าหลัก")
